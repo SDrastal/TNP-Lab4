@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     private float horizontalScreenLimit = 10f;
     private float verticalScreenLimit = 6f;
     private bool canShoot = true;
+    private PlayerInputActions playerInputActions;
+
+    public object Controller { get; private set; }
 
     // Start is called before the first frame update
     void Start()
@@ -24,17 +27,31 @@ public class Player : MonoBehaviour
         Shooting();
     }
 
+    void OnEnable()
+    {
+        playerInputActions = new PlayerInputActions();
+
+        playerInputActions.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerInputActions.Player.Disable();
+    }
+
+
     void Movement()
     {
-        transform.Translate(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * Time.deltaTime * speed);
-        if (transform.position.x > horizontalScreenLimit || transform.position.x <= -horizontalScreenLimit)
-        {
-            transform.position = new Vector3(transform.position.x * -1f, transform.position.y, 0);
-        }
-        if (transform.position.y > verticalScreenLimit || transform.position.y <= -verticalScreenLimit)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y * -1, 0);
-        }
+        Vector2 playerInput = playerInputActions.Player.Movement.ReadValue<Vector2>();
+
+        Vector3 movement = new Vector3(playerInput.x, playerInput.y, 0) * speed * Time.deltaTime;
+
+        transform.position += movement;
+
+        float clampedX = Mathf.Clamp(transform.position.x, -horizontalScreenLimit, horizontalScreenLimit);
+        float clampedY = Mathf.Clamp(transform.position.y, -verticalScreenLimit, verticalScreenLimit);
+        transform.position = new Vector3(clampedX, clampedY, 0);
+
     }
 
     void Shooting()
