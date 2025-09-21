@@ -22,10 +22,7 @@ public class EnemyController : MonoBehaviour
         orbitRadius = Random.Range(minSpawnRadius, maxSpawnRadius);
 
         // Set initial position around the player
-        float x = Mathf.Cos(orbitAngle) * orbitRadius;
-        float y = Mathf.Sin(orbitAngle) * orbitRadius;
-
-        transform.position = new Vector3(player.position.x + x, player.position.y + y, transform.position.z);
+        SetOrbitPosition();
     }
 
     void Update()
@@ -39,15 +36,20 @@ public class EnemyController : MonoBehaviour
         orbitAngle += orbitSpeed * Time.deltaTime;
 
         // Calculate new position
-        float x = Mathf.Cos(orbitAngle) * orbitRadius;
-        float y = Mathf.Sin(orbitAngle) * orbitRadius;
-
-        transform.position = new Vector3(player.position.x + x, player.position.y + y, transform.position.z);
+        SetOrbitPosition();
     }
 
     float CalculateOrbitSpeed(float radius)
     {
         // Example: speed grows slowly as radius increases
         return Mathf.Sqrt(radius) * 0.5f;
+    }
+
+    void SetOrbitPosition()
+    {
+        float x = Mathf.Cos(orbitAngle) * orbitRadius;
+        float y = Mathf.Sin(orbitAngle) * orbitRadius;
+
+        transform.position = new Vector3(player.position.x + x, player.position.y + y, transform.position.z);
     }
 }

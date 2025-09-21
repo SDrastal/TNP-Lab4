@@ -17,15 +17,7 @@ public class BigMeteor : MonoBehaviour
     {
         transform.Translate(Vector3.down * Time.deltaTime * 0.5f);
 
-        if (transform.position.y < -11f)
-        {
-            Destroy(this.gameObject);
-        }
-
-        if (hitCount >= 5)
-        {
-            Destroy(this.gameObject);
-        }
+        CheckOutOfBounds();
     }
 
     private void OnTriggerEnter2D(Collider2D whatIHit)
@@ -38,7 +30,19 @@ public class BigMeteor : MonoBehaviour
         else if (whatIHit.tag == "Laser")
         {
             hitCount++;
+            if (hitCount >= 5)
+            {
+                Destroy(this.gameObject);
+            }
             Destroy(whatIHit.gameObject);
+        }
+    }
+
+    private void CheckOutOfBounds()
+    {
+        if (transform.position.y < -11f)
+        {
+            Destroy(this.gameObject);
         }
     }
 }
