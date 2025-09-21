@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  orbitSpeed: 1
-  orbitAngle: 1
-  orbitRadius: 1
+  minSpawnRadius: 3
+  maxSpawnRadius: 6
+  minOrbitSpeed: 1
+  maxOrbitSpeed: 3
