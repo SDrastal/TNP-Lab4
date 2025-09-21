@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject meteorPrefab;
     public GameObject bigMeteorPrefab;
+    public GameObject chasingMeteorPrefab;
     public CinemachineVirtualCamera virtualCamera;
     public bool gameOver = false;
 
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
         }
 
         InvokeRepeating("SpawnMeteor", 1f, 2f);
+        InvokeRepeating("SpawnChasingMeteor", 3f, 5f);
     }
 
     // Update is called once per frame
@@ -49,6 +51,12 @@ public class GameManager : MonoBehaviour
     void SpawnMeteor()
     {
         Instantiate(meteorPrefab, new Vector3(Random.Range(-8, 8), 7.5f, 0), Quaternion.identity);
+    }
+
+    void SpawnChasingMeteor()
+    {
+        Vector3 spawnPos = new Vector3(Random.Range(-8, 8), 7.5f, 0);
+        Instantiate(chasingMeteorPrefab, spawnPos, Quaternion.identity);
     }
 
     void BigMeteor()
